@@ -28,6 +28,26 @@
 <script type="text/javascript">
   var center = MAP.meta.center.split( /,/ );
   L.marker( [ center[1], center[0] ] ).addTo( MAP );
+
+  var pointer = L.circle( [ 0, 0 ], { radius: 10 } ).addTo( MAP );
+
+  var getpos = function() {
+    navigator.geolocation.getCurrentPosition( function( pos ) {
+      var lat = pos.coords.latitude;
+      var lng = pos.coords.longitude;
+      pointer.setLatLng( [ lat, lng ] )
+    }, function( e ) {
+
+    }, {
+      enableHighAccuracy: true
+    } );
+  }
+
+  if ( navigator.geolocation ) {
+    setInterval( getpos, 5000 )
+  }
+
+  getpos();
 </script>
 </body>
 </html>
