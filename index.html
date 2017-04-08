@@ -26,10 +26,7 @@
 <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
 <script src="js/map.min.js"></script>
 <script type="text/javascript">
-  var center = MAP.meta.center.split( /,/ );
-  L.marker( [ center[1], center[0] ] ).addTo( MAP );
-
-  var pointer = L.circle( [ 0, 0 ], { radius: 10 } ).addTo( MAP );
+  var pointer = L.circle( [ 0, 0 ], { radius: 5 } ).addTo( MAP );
 
   var getpos = function() {
     navigator.geolocation.getCurrentPosition( function( pos ) {
