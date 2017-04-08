@@ -1,6 +1,5 @@
 "use strict";
 
-const L = require( 'leaflet' )
 const meta = require( '../tiles/metadata.json' );
 
 var current = () => {
@@ -26,11 +25,26 @@ const southWest = new L.latLng( [ bounds[1], bounds[2] ] ),
   northEast = new L.latLng( [ bounds[3], bounds[0] ] ),
   bbox = new L.latLngBounds( southWest, northEast );
 const center = meta.center.split( /,/ )
-const map = L.map( meta.id, { maxBounds: bbox } ).setView( [ center[1], center[0] ], center[2] );
+
+// `MAP` should be global.
+global.MAP = L.map( meta.id, { maxBounds: bbox } ).setView( [ center[1], center[0] ], center[2] );
+MAP.meta = meta;
 
 L.tileLayer( current() + '/tiles/{z}/{x}/{y}.png', {
   minZoom: meta.minzoom,
   maxZoom: meta.maxzoom,
   bounds: bbox,
   attribution: meta.attribution
-} ).addTo( map );
+} ).addTo( MAP );
+
+if ( meta.legend ) {
+  const legend = L.control( { position: 'bottomright' } );
+
+  legend.onAdd = ( MAP ) => {
+    this._div = L.DomUtil.create( 'div', 'legend' );
+    this._div.innerHTML = meta.legend;
+    return this._div;
+  }
+
+  legend.addTo( MAP );
+}
