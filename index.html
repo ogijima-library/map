@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" type="image/x-icon" href="docs/images/favicon.ico" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
+  <style media="screen">
+    html,body
+    {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+    .leaflet-container
+    {
+      background-color: #b9e5f4;
+    }
+  </style>
+</head>
+<body>
+
+<div id="openstreetmap-carto" style="width: 100%; height: 100%;"></div>
+
+<script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
+<script src="js/map.min.js"></script>
+<script type="text/javascript">
+  var pointer = L.circle( [ 0, 0 ], { radius: 5 } ).addTo( MAP );
+
+  var getpos = function() {
+    navigator.geolocation.getCurrentPosition( function( pos ) {
+      var lat = pos.coords.latitude;
+      var lng = pos.coords.longitude;
+      pointer.setLatLng( [ lat, lng ] )
+    }, function( e ) {
+
+    }, {
+      enableHighAccuracy: true
+    } );
+  }
+
+  if ( navigator.geolocation ) {
+    setInterval( getpos, 5000 )
+  }
+
+  getpos();
+</script>
+</body>
+</html>
